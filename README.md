@@ -4,20 +4,24 @@ Bot Telegram sederhana untuk monitoring server Linux (Ubuntu/Debian), termasuk:
 - 🔍 Cek status server: CPU, RAM, Disk, IP publik, uptime
 - 🧰 Cek & kontrol service: nginx, mysql, dll
 - 🐳 Monitoring container Docker (status, log, restart)
-- 🔔 Notifikasi otomatis saat login SSH
+- 🔔 Notifikasi otomatis saat service/container down
+- 🕵️‍♂️ Log aktivitas pengguna (audit trail)
 
 ---
 
 ## 📦 Fitur Utama
 
-| Command Telegram       | Fungsi                                   |
-|------------------------|-------------------------------------------|
-| `/status`              | Info CPU, RAM, disk, IP publik, uptime    |
-| `/service nginx`       | Cek status service tertentu               |
-| `/restart nginx`       | Restart service tertentu                  |
-| `/docker`              | Tampilkan semua container Docker          |
-| `/dockerlogs nginx`    | Lihat 20 baris terakhir log container     |
-| `/dockerrestart nginx` | Restart container Docker tertentu         |
+| Command Telegram       | Fungsi                                         |
+|------------------------|-------------------------------------------------|
+| `/status`              | Info CPU, RAM, disk, IP publik, uptime         |
+| `/service nginx`       | Cek status service tertentu                    |
+| `/restart nginx`       | Restart service tertentu                       |
+| `/docker`              | Tampilkan semua container Docker               |
+| `/dockerlogs nginx`    | Lihat 20 baris terakhir log container          |
+| `/dockerrestart nginx` | Restart container Docker tertentu              |
+| `/ip`                  | Tampilkan IP lokal dan publik                  |
+| `/uptime`              | Menampilkan uptime server                      |
+| `/topcpu`              | Lihat 5 proses dengan penggunaan CPU tertinggi |
 
 ---
 
@@ -44,8 +48,8 @@ Minimal Python **3.9** disarankan.
 ### 2. Clone Repo dan Install Dependensi
 
 ```bash
-git clone https://github.com/kamu/telegram-docker-bot.git
-cd telegram-docker-bot
+git clone https://github.com/frambudi75/Bot-cek-service-docker-dan-server.git
+cd Bot-cek-service-docker-dan-server
 pip3 install -r requirements.txt
 ```
 
@@ -78,29 +82,10 @@ ALLOWED_USER_ID=123456789
 python3 bot.py
 ```
 
----
-
-## 🔐 SSH Login Notification (Opsional)
-
-Agar setiap login SSH ke server kamu memicu notifikasi ke Telegram:
-
-1. Buka file `.bashrc` atau `/etc/profile`:
-```bash
-sudo nano /etc/profile
-```
-
-2. Tambahkan di akhir:
-```bash
-bash /path/ke/ssh_login_notify.sh
-```
-
-3. Edit `ssh_login_notify.sh`, isi token & chat_id:
-```bash
-TOKEN="BOT_TOKEN"
-CHAT_ID="USER_CHAT_ID"
-```
-
-4. Simpan & tes login SSH
+Bot akan otomatis:
+- Mengecek status container/service setiap 10 menit
+- Memberikan notifikasi jika ada yang mati
+- Mencatat log aktivitas pengguna ke `bot_audit.log`
 
 ---
 
@@ -129,6 +114,21 @@ WantedBy=multi-user.target
 sudo systemctl daemon-reexec
 sudo systemctl enable telegrambot
 sudo systemctl start telegrambot
+```
+
+---
+
+## 📝 Unduh & Mulai Langsung
+
+> 💡 Kamu bisa langsung clone & jalankan dari sini:
+
+```bash
+git clone https://github.com/frambudi75/Bot-cek-service-docker-dan-server.git
+cd Bot-cek-service-docker-dan-server
+pip install -r requirements.txt
+cp .env.example .env
+nano .env  # isi token & ID kamu
+python3 bot.py
 ```
 
 ---
