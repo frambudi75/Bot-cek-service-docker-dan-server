@@ -27,7 +27,10 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "/restart nginx - Restart service\n"
         "/docker - Daftar container Docker\n"
         "/dockerlogs nginx - Lihat log container\n"
-        "/dockerrestart nginx - Restart container"
+        "/dockerrestart nginx - Restart container\n"
+        "/ip - Lihat IP lokal & publik\n"
+        "/uptime - Uptime server\n"
+        "/topcpu - Proses paling tinggi CPU\n"
     )
     await update.message.reply_text(msg)
 
@@ -39,13 +42,7 @@ async def status(update: Update, context: ContextTypes.DEFAULT_TYPE):
     disk = psutil.disk_usage("/").percent
     ip_pub = requests.get("https://api.ipify.org").text
 
-    msg = f"""📊 STATUS SERVER:
-Uptime: {uptime}
-CPU: {cpu}%
-RAM: {ram}%
-Disk: {disk}%
-IP Publik: {ip_pub}
-"""
+    msg = f"""📊 STATUS SERVER:\nUptime: {uptime}\nCPU: {cpu}%\nRAM: {ram}%\nDisk: {disk}%\nIP Publik: {ip_pub}"""
     await update.message.reply_text(msg)
 
 async def service(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -89,6 +86,22 @@ async def docker_restart(update: Update, context: ContextTypes.DEFAULT_TYPE):
     subprocess.run(f"docker restart {name}", shell=True)
     await update.message.reply_text(f"✅ Container `{name}` direstart.", parse_mode='Markdown')
 
+async def ip_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not is_authorized(update): return
+    ip_pub = requests.get("https://api.ipify.org").text
+    ip_local = subprocess.getoutput("hostname -I").strip()
+    await update.message.reply_text(f"🌐 IP Publik: {ip_pub}\n🏠 IP Lokal: {ip_local}")
+
+async def uptime_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not is_authorized(update): return
+    uptime = subprocess.getoutput("uptime -p")
+    await update.message.reply_text(f"⏱️ Uptime: {uptime}")
+
+async def topcpu_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not is_authorized(update): return
+    result = subprocess.getoutput("ps -eo pid,comm,%cpu --sort=-%cpu | head -n 6")
+    await update.message.reply_text(f"🔥 Top Proses CPU:\n\n{result}")
+
 app = ApplicationBuilder().token(TOKEN).build()
 app.add_handler(CommandHandler("start", start))
 app.add_handler(CommandHandler("help", help_command))
@@ -98,4 +111,7 @@ app.add_handler(CommandHandler("restart", restart))
 app.add_handler(CommandHandler("docker", docker))
 app.add_handler(CommandHandler("dockerlogs", docker_logs))
 app.add_handler(CommandHandler("dockerrestart", docker_restart))
+app.add_handler(CommandHandler("ip", ip_command))
+app.add_handler(CommandHandler("uptime", uptime_command))
+app.add_handler(CommandHandler("topcpu", topcpu_command))
 app.run_polling()
