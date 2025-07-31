@@ -21,20 +21,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_authorized(update): return
     msg = (
-        "📌 Perintah Bot:
-"
-        "/status - Cek status server
-"
-        "/service nginx - Status service
-"
-        "/restart nginx - Restart service
-"
-        "/docker - Daftar container Docker
-"
-        "/dockerlogs nginx - Lihat log container
-"
-        "/dockerrestart nginx - Restart container
-"
+        "📌 Perintah Bot:\n"
+        "/status - Cek status server\n"
+        "/service nginx - Status service\n"
+        "/restart nginx - Restart service\n"
+        "/docker - Daftar container Docker\n"
+        "/dockerlogs nginx - Lihat log container\n"
+        "/dockerrestart nginx - Restart container"
     )
     await update.message.reply_text(msg)
 
@@ -76,8 +69,7 @@ async def restart(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def docker(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_authorized(update): return
     result = subprocess.getoutput("docker ps -a --format '{{.Names}} | {{.Status}}'")
-    await update.message.reply_text("📦 Docker Container:
-" + result)
+    await update.message.reply_text("📦 Docker Container:\n" + result)
 
 async def docker_logs(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_authorized(update): return
@@ -86,9 +78,7 @@ async def docker_logs(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     name = context.args[0]
     result = subprocess.getoutput(f"docker logs --tail 20 {name}")
-    await update.message.reply_text(f"📝 Log dari `{name}`:
-
-{result}", parse_mode='Markdown')
+    await update.message.reply_text(f"📝 Log dari `{name}`:\n\n{result}", parse_mode='Markdown')
 
 async def docker_restart(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_authorized(update): return
