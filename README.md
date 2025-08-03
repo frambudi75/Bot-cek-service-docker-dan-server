@@ -344,17 +344,7 @@ Bot ini dirancang untuk mengelola satu server tempat bot dijalankan. Untuk menge
 
 ---
 
-## 🗺️ Roadmap
 
-### Versi Mendatang
-
-- [ ] Dukungan untuk mengelola multiple server dari satu bot
-- [ ] Notifikasi otomatis untuk penggunaan resource yang tinggi
-- [ ] Dukungan untuk lebih banyak perintah Docker
-- [ ] Integrasi dengan platform monitoring seperti Grafana
-- [ ] Dukungan multi-bahasa
-
----
 
 ## 🤝 Kontribusi
 
