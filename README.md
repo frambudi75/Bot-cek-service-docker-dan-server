@@ -1,4 +1,3 @@
-
 # 🛠️ Telegram Docker & Service Bot
 
 [![Python Version](https://img.shields.io/badge/python-3.7%2B-blue)](https://www.python.org/downloads/)
@@ -12,8 +11,32 @@
 <h3 align="center">Kontrol dan Monitor Server Linux Anda dari Telegram</h3>
 
 <p align="center">
+  <img src="service.png" alt="Telegram Bot Interface" width="600">
+</p>
+
+<p align="center">
   Bot Telegram yang kuat untuk mengelola service systemd dan container Docker langsung dari chat Anda.
 </p>
+
+---
+
+## 📑 Daftar Isi
+
+- [Fitur Utama](#-fitur-utama)
+- [Instalasi di Server](#-instalasi-di-server)
+- [Menjalankan Bot Manual](#️-menjalankan-bot-manual)
+- [Menjalankan Otomatis dengan systemd](#-menjalankan-otomatis-dengan-systemd)
+- [Izin Sudo (untuk restart service)](#-izin-sudo-untuk-restart-service)
+- [Notifikasi SSH Login](#-notifikasi-ssh-login)
+- [Perintah di Telegram](#-perintah-di-telegram)
+- [Variabel Lingkungan](#-variabel-lingkungan)
+- [Troubleshooting](#-troubleshooting)
+- [Keamanan](#-keamanan)
+- [FAQ](#-faq)
+- [Roadmap](#-roadmap)
+- [Kontribusi](#-kontribusi)
+- [Lisensi](#-lisensi)
+- [Dibuat oleh](#-dibuat-oleh)
 
 ---
 
@@ -24,6 +47,10 @@
 - ⚙️ **Service Control**: Restart service systemd
 - 🚨 **SSH Notification**: Dapatkan notifikasi saat ada login SSH ke server
 - 💬 **Perintah Praktis**: Semua kontrol langsung dari Telegram
+
+<p align="center">
+  <img src="tele1.png" alt="Telegram Bot Commands" width="600">
+</p>
 
 ---
 
@@ -246,6 +273,17 @@ Ketik `/help` di bot untuk melihat semua perintah yang tersedia.
 
 ---
 
+## 🌍 Variabel Lingkungan
+
+Berikut adalah variabel lingkungan yang digunakan dalam aplikasi ini:
+
+| Variabel | Deskripsi | Contoh Nilai |
+|----------|-----------|--------------|
+| `BOT_TOKEN` | Token API untuk bot Telegram Anda | `1234567890:ABCDEF1234567890abcdef1234567890` |
+| `ALLOWED_USER_ID` | ID Telegram pengguna yang diizinkan mengakses bot | `123456789` |
+
+---
+
 ## 🔧 Troubleshooting
 
 ### Masalah Umum:
@@ -278,6 +316,48 @@ Ketik `/help` di bot untuk melihat semua perintah yang tersedia.
 
 ---
 
+## ❓ FAQ
+
+### Apakah bot ini aman digunakan?
+
+Ya, bot ini aman digunakan selama Anda mengikuti panduan keamanan yang telah disediakan. Pastikan untuk:
+- Menjaga kerahasiaan BOT_TOKEN
+- Hanya mengizinkan pengguna tertentu melalui ALLOWED_USER_ID
+- Menggunakan izin sudo yang spesifik
+
+### Bisakah saya menggunakan bot ini di server produksi?
+
+Ya, bot ini bisa digunakan di server produksi. Namun, pastikan Anda:
+- Memahami setiap perintah yang dijalankan oleh bot
+- Menggunakan izin sudo yang terbatas
+- Memantau aktivitas bot secara berkala
+
+### Bagaimana cara memperbarui bot ke versi terbaru?
+
+```bash
+git pull origin main
+pip install -r requirements.txt
+sudo systemctl restart telegrambot
+```
+
+### Apakah bot ini bisa mengelola banyak server?
+
+Bot ini dirancang untuk mengelola satu server tempat bot dijalankan. Untuk mengelola banyak server, Anda perlu menjalankan instance bot terpisah di setiap server.
+
+---
+
+## 🗺️ Roadmap
+
+### Versi Mendatang
+
+- [ ] Dukungan untuk mengelola multiple server dari satu bot
+- [ ] Notifikasi otomatis untuk penggunaan resource yang tinggi
+- [ ] Dukungan untuk lebih banyak perintah Docker
+- [ ] Integrasi dengan platform monitoring seperti Grafana
+- [ ] Dukungan multi-bahasa
+
+---
+
 ## 🤝 Kontribusi
 
 Kontribusi sangat dihargai! Untuk berkontribusi:
@@ -306,5 +386,3 @@ Habib Frambudi
 ---
 
 ## 🙏 Terima Kasih
-
-
