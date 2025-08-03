@@ -133,14 +133,12 @@ Description=Telegram Docker Bot
 After=network.target
 
 [Service]
-Type=simple
-User=your_username
-WorkingDirectory=/path/to/Bot-cek-service-docker-dan-server
-ExecStart=/usr/bin/python3 /path/to/Bot-cek-service-docker-dan-server/bot.py
+User=youruser
+WorkingDirectory=/home/youruser/Telegram-docker-bot
+ExecStart=/usr/bin/python3 bot.py
 Restart=always
-RestartSec=10
-Environment=BOT_TOKEN=isi_token_bot_anda
-Environment=ALLOWED_USER_ID=123456789
+Environment=BOT_TOKEN=xxx
+Environment=ALLOWED_USER_ID=xxx
 
 [Install]
 WantedBy=multi-user.target
