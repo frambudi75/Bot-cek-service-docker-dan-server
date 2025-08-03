@@ -1,0 +1,23 @@
+
+# File konfigurasi yang sensitif
+.env
+
+# Virtual environment
+env/
+venv/
+
+# File cache Python
+__pycache__/
+*.pyc
+
+# File editor
+.vscode/
+*.swp
+*.swo
+
+# File log
+*.log
+
+# Sistem operasi
+.DS_Store
+Thumbs.db
